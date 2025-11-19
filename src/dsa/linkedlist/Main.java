@@ -3,6 +3,7 @@ package dsa.linkedlist;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashSet;
 
 public class Main {
     public static class Node {
@@ -242,6 +243,20 @@ public class Main {
             }
             return slow.data;
         }
+
+        public boolean hasCycle() {
+            HashSet<Node> visited = new HashSet<>();
+            Node current = head;
+
+            while (current != null) {
+                if (visited.contains(current)) {
+                    return true;
+                }
+                visited.add(current);
+                current = current.next;
+            }
+            return false;
+        }
     }
 
     public static void testList(LinkedList list) {
@@ -309,6 +324,9 @@ public class Main {
                 System.out.println(list.kthFromLast(idx));
             } else if (str.startsWith("midOfLinkedList")) {
                 int res = list.midOfLinkedList();
+                System.out.println(res);
+            } else if (str.startsWith("hasCycle")) {
+                boolean res = list.hasCycle();
                 System.out.println(res);
             }
             str = br.readLine();

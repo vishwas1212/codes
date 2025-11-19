@@ -1,11 +1,12 @@
 package concepts.designpatterns.creational;
 
 public class Singleton {
-    private static Singleton INSTANCE;
 
-    public Singleton() {
+    public static Singleton INSTANCE;
+
+    private Singleton() {
         if (INSTANCE != null) {
-            throw new RuntimeException("SINGLETON ALREADY INSTANTIATED");
+            throw new RuntimeException("Instance is not null");
         }
     }
 
@@ -20,3 +21,4 @@ public class Singleton {
         return INSTANCE;
     }
 }
+

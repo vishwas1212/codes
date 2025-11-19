@@ -1,5 +1,7 @@
 package concepts.java8.objects;
 
+import demo.Employee;
+
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -10,7 +12,7 @@ public class BreadWinnerDriver {
     public static void main(String[] args) {
         List<BreadWinner> breadWinners = new ArrayList<BreadWinner>();
 
-        breadWinners.add(new BreadWinner(111, "Jiya Brein", 32, "Female", "HR", 2011, 25000.0));
+        breadWinners.add(new BreadWinner(111, "Jiya Brein", 32, "Female", "HR", 2011, 22700.0));
         breadWinners.add(new BreadWinner(122, "Paul Niksui", 25, "Male", "Sales And Marketing", 2015, 13500.0));
         breadWinners.add(new BreadWinner(133, "Martin Theron", 29, "Male", "Infrastructure", 2012, 18000.0));
         breadWinners.add(new BreadWinner(144, "Murali Gowda", 28, "Male", "Product Development", 2014, 32500.0));
@@ -255,11 +257,26 @@ public class BreadWinnerDriver {
                         BreadWinner::getDepartment,
                         Collectors.summarizingDouble(BreadWinner::getSalary)));
 
-       empStats.forEach((department,stats)->{
-            System.out.println("department: "+department);
-           System.out.println("Avg Salary: "+stats.getAverage());
-           System.out.println("Max Salary: "+stats.getMax());
-           System.out.println("Min Salary: "+stats.getMin());
+        empStats.forEach((department, stats) -> {
+            System.out.println("department: " + department);
+            System.out.println("Avg Salary: " + stats.getAverage());
+            System.out.println("Max Salary: " + stats.getMax());
+            System.out.println("Min Salary: " + stats.getMin());
         });
+
+        //Q.21 Find the employees having nth salary per department
+
+        List<Double> list = breadWinners.stream()
+                .filter(e -> e.getDepartment().equalsIgnoreCase("hr"))
+                .map(BreadWinner::getSalary)
+                .sorted(Comparator.reverseOrder())
+                .toList();
+        Double nthSalary = list.get(2 - 1);
+        List<BreadWinner> winners = breadWinners.stream()
+                .filter(e -> e.getDepartment().equalsIgnoreCase("hr"))
+                .filter(e -> Double.compare(e.getSalary(), nthSalary) == 0)
+                .toList();
+
+        winners.forEach(System.out::println);
     }
 }
